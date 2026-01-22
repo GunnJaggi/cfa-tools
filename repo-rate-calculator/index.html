@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repurchase Agreement Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FFF9E6 0%, #F5EDD1 50%, #FCE7C5 100%);
+            font-family: 'Inter', sans-serif;
+            padding: 2rem;
+            color: #4a4a3a;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 4rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #D4A574;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #3d3d2e;
+            margin: 0 0 0.5rem 0;
+            letter-spacing: -0.01em;
+        }
+
+        .underline {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #E89B5E 0%, #D4A574 100%);
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: #7a7a62;
+            font-size: 1rem;
+            max-width: 600px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #A8B99C 0%, #8FA885 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #D4A574;
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.2);
+        }
+
+        .icon-text {
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .section {
+            background: linear-gradient(135deg, #FFFEF8 0%, #FFF9ED 100%);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 2px solid #E8D5B7;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 16px rgba(212, 165, 116, 0.15);
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #3d3d2e;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .about-text {
+            color: #5a5a48;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #3d3d2e;
+            font-size: 1rem;
+        }
+
+        .label-with-tooltip {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tooltip-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #A8B99C 0%, #8FA885 100%);
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: help;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(168, 185, 156, 0.3);
+        }
+
+        .tooltip-icon:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #3d3d2e;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+            font-weight: normal;
+            width: 220px;
+            white-space: normal;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid #E8D5B7;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: #FFFEF8;
+            color: #3d3d2e;
+            transition: all 0.2s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #E89B5E;
+            box-shadow: 0 0 0 3px rgba(232, 155, 94, 0.1);
+            background: #ffffff;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .reset-btn {
+            width: 100%;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, #E89B5E 0%, #D4A574 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(232, 155, 94, 0.3);
+            margin-top: 1rem;
+        }
+
+        .reset-btn:hover {
+            background: linear-gradient(135deg, #D4A574 0%, #C09560 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(232, 155, 94, 0.4);
+        }
+
+        .output-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .output-card {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFF5DC 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid #E8D5B7;
+            transition: all 0.3s ease;
+        }
+
+        .output-card:hover {
+            border-color: #D4A574;
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .output-label {
+            font-size: 0.9rem;
+            color: #7a7a62;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .output-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #3d3d2e;
+        }
+
+        .output-subtext {
+            font-size: 0.85rem;
+            color: #8FA885;
+            margin-top: 0.25rem;
+            font-weight: 500;
+        }
+
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .alert-warning {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFE8CC 100%);
+            border: 2px solid #FFB74D;
+            color: #E65100;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #E8F5E9 0%, #D4E9D6 100%);
+            border: 2px solid #81C784;
+            color: #2E7D32;
+        }
+
+        .explanation {
+            background: linear-gradient(135deg, #E8F4E1 0%, #D8E9D0 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            line-height: 1.8;
+            color: #4a5a44;
+            border: 2px solid #A8B99C;
+            box-shadow: 0 4px 12px rgba(168, 185, 156, 0.15);
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #E8D5B7;
+            margin: 1.5rem 0;
+        }
+
+        .info-text {
+            font-size: 0.85rem;
+            color: #7a7a62;
+            font-style: italic;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <h1>Repurchase Agreement Calculator</h1>
+                <div class="underline"></div>
+                <p class="subtitle">Calculate repo purchase price, haircut, repurchase amount, and variation margin</p>
+            </div>
+            <div class="icon">
+                <div class="icon-text">₹</div>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <div class="section">
+            <h2>About</h2>
+            <p class="about-text">
+                A repurchase agreement (repo) is a form of short-term borrowing where securities are sold with an agreement 
+                to repurchase them at a specified price on a future date. This calculator helps determine the purchase price 
+                based on initial margin, calculates the haircut percentage, computes the repurchase amount including interest, 
+                and evaluates variation margin requirements when collateral values change during the repo period.
+            </p>
+        </div>
+
+        <!-- Initial Repo Setup -->
+        <div class="section">
+            <h2>Initial Repo Setup</h2>
+
+            <div class="row">
+                <div class="input-group">
+                    <label class="label-with-tooltip">
+                        Security Market Price
+                        <span class="tooltip-icon" data-tooltip="Current market value of the security">i</span>
+                    </label>
+                    <input type="number" id="marketPrice" value="0" step="0.01" min="0">
+                    <p class="info-text">in millions</p>
+                </div>
+
+                <div class="input-group">
+                    <label class="label-with-tooltip">
+                        Initial Margin (IM)
+                        <span class="tooltip-icon" data-tooltip="Margin percentage applied to determine purchase price">i</span>
+                    </label>
+                    <input type="number" id="initialMargin" value="0" step="0.01" min="0" max="100">
+                    <p class="info-text">as percentage (%)</p>
+                </div>
+
+                <div class="input-group">
+                    <label class="label-with-tooltip">
+                        Repo Rate
+                        <span class="tooltip-icon" data-tooltip="Annual interest rate for the repo transaction">i</span>
+                    </label>
+                    <input type="number" id="repoRate" value="0" step="0.01" min="0" max="100">
+                    <p class="info-text">annual rate (%)</p>
+                </div>
+
+                <div class="input-group">
+                    <label class="label-with-tooltip">
+                        Repo Duration
+                        <span class="tooltip-icon" data-tooltip="Total length of the repo agreement in days">i</span>
+                    </label>
+                    <input type="number" id="repoDuration" value="30" step="1" min="1">
+                    <p class="info-text">in days</p>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 2rem;">Initial Calculations</h2>
+            <div class="output-grid">
+                <div class="output-card">
+                    <div class="output-label">Purchase Price</div>
+                    <div class="output-value" id="purchasePrice">₹0.00</div>
+                    <div class="output-subtext">million</div>
+                </div>
+
+                <div class="output-card">
+                    <div class="output-label">Haircut</div>
+                    <div class="output-value" id="haircut">0.00%</div>
+                    <div class="output-subtext">margin of safety</div>
+                </div>
+
+                <div class="output-card">
+                    <div class="output-label">Repurchase Amount</div>
+                    <div class="output-value" id="repurchaseAmount">₹0.00</div>
+                    <div class="output-subtext">million at maturity</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Variation Margin Section -->
+        <div class="section">
+            <h2>Variation Margin Check</h2>
+            <p class="about-text" style="margin-bottom: 1.5rem;">
+                Check if additional collateral is needed or can be withdrawn when the security value changes during the repo period.
+            </p>
+
+            <div class="row">
+                <div class="input-group">
+                    <label class="label-with-tooltip">
+                        Days Elapsed
+                        <span class="tooltip-icon" data-tooltip="Number of days passed since repo start">i</span>
+                    </label>
+                    <input type="number" id="daysElapsed" value="0" step="1" min="0">
+                    <p class="info-text" id="daysElapsedInfo">cannot exceed repo duration</p>
+                </div>
+
+                <div class="input-group">
+                    <label class="label-with-tooltip">
+                        Current Collateral Value
+                        <span class="tooltip-icon" data-tooltip="Current market value of the collateral">i</span>
+                    </label>
+                    <input type="number" id="currentCollateralValue" value="0" step="0.01" min="0">
+                    <p class="info-text">in millions</p>
+                </div>
+            </div>
+
+            <div class="output-grid">
+                <div class="output-card">
+                    <div class="output-label">Days Remaining</div>
+                    <div class="output-value" id="daysRemaining">0</div>
+                    <div class="output-subtext">days until maturity</div>
+                </div>
+
+                <div class="output-card">
+                    <div class="output-label">Required Collateral Value</div>
+                    <div class="output-value" id="requiredCollateral">₹0.00</div>
+                    <div class="output-subtext">million at current date</div>
+                </div>
+
+                <div class="output-card">
+                    <div class="output-label">Variation Margin</div>
+                    <div class="output-value" id="variationMargin">₹0.00</div>
+                    <div class="output-subtext" id="variationMarginText">status</div>
+                </div>
+            </div>
+
+            <div id="variationAlert"></div>
+        </div>
+
+        <!-- Explanation Section -->
+        <div class="section">
+            <h2>Explanation</h2>
+            <div class="explanation" id="explanation">
+                Enter values to see detailed calculation breakdown
+            </div>
+        </div>
+
+        <!-- Reset Button -->
+        <button class="reset-btn" onclick="resetAll()">Reset All Values</button>
+    </div>
+
+    <script>
+        function formatCurrency(value) {
+            return '₹' + value.toFixed(2);
+        }
+
+        function formatPercent(value) {
+            return value.toFixed(4) + '%';
+        }
+
+        function calculate() {
+            // Get inputs
+            const marketPrice = parseFloat(document.getElementById('marketPrice').value) || 0;
+            const initialMargin = parseFloat(document.getElementById('initialMargin').value) || 0;
+            const repoRate = parseFloat(document.getElementById('repoRate').value) || 0;
+            let repoDuration = parseInt(document.getElementById('repoDuration').value) || 0;
+            let daysElapsed = parseInt(document.getElementById('daysElapsed').value) || 0;
+            const currentCollateralValue = parseFloat(document.getElementById('currentCollateralValue').value) || 0;
+
+            // Validate days elapsed
+            if (daysElapsed > repoDuration) {
+                document.getElementById('daysElapsed').value = repoDuration;
+                daysElapsed = repoDuration;
+            }
+
+            document.getElementById('daysElapsedInfo').textContent = `cannot exceed ${repoDuration} days`;
+
+            // Calculate Purchase Price
+            const purchasePrice = initialMargin > 0 ? marketPrice / (1 + initialMargin / 100) : 0;
+
+            // Calculate Haircut
+            const haircut = marketPrice > 0 ? ((marketPrice - purchasePrice) / marketPrice) * 100 : 0;
+
+            // Calculate Repurchase Amount based on duration
+            let repurchaseAmount;
+            if (repoDuration <= 365) {
+                repurchaseAmount = purchasePrice * (1 + (repoRate / 100) * (repoDuration / 365));
+            } else {
+                // For durations > 365 days, use annual compounding
+                const years = Math.floor(repoDuration / 365);
+                const remainingDays = repoDuration % 365;
+                repurchaseAmount = purchasePrice * Math.pow(1 + repoRate / 100, years) * (1 + (repoRate / 100) * (remainingDays / 365));
+            }
+
+            // Calculate Days Remaining
+            const daysRemaining = repoDuration - daysElapsed;
+
+            // Calculate Required Collateral Value at current date (using 360-day basis for variation margin)
+            let collateralValueAtDate;
+            if (daysRemaining <= 360) {
+                collateralValueAtDate = purchasePrice * (1 + (repoRate / 100) * (daysRemaining / 360));
+            } else {
+                const years = Math.floor(daysRemaining / 360);
+                const remainingDays = daysRemaining % 360;
+                collateralValueAtDate = purchasePrice * Math.pow(1 + repoRate / 100, years) * (1 + (repoRate / 100) * (remainingDays / 360));
+            }
+            
+            const requiredCollateral = collateralValueAtDate * (1 + initialMargin / 100);
+
+            // Calculate Variation Margin
+            const variationMargin = currentCollateralValue - requiredCollateral;
+            
+            // Update outputs
+            document.getElementById('purchasePrice').textContent = formatCurrency(purchasePrice);
+            document.getElementById('haircut').textContent = formatPercent(haircut);
+            document.getElementById('repurchaseAmount').textContent = formatCurrency(repurchaseAmount);
+            document.getElementById('daysRemaining').textContent = daysRemaining;
+            document.getElementById('requiredCollateral').textContent = formatCurrency(requiredCollateral);
+            document.getElementById('variationMargin').textContent = formatCurrency(Math.abs(variationMargin));
+
+            // Update variation margin status
+            const alertDiv = document.getElementById('variationAlert');
+            const variationMarginText = document.getElementById('variationMarginText');
+            
+            if (variationMargin < -0.01) {
+                variationMarginText.textContent = 'shortfall - post collateral';
+                alertDiv.innerHTML = `
+                    <div class="alert alert-warning">
+                        ⚠️ <strong>Margin Call:</strong> Additional collateral of ${formatCurrency(Math.abs(variationMargin))} million must be posted to maintain required margin.
+                    </div>
+                `;
+            } else if (variationMargin > 0.01) {
+                variationMarginText.textContent = 'excess - can withdraw';
+                alertDiv.innerHTML = `
+                    <div class="alert alert-success">
+                        ✓ <strong>Excess Margin:</strong> ${formatCurrency(variationMargin)} million in excess collateral available for withdrawal.
+                    </div>
+                `;
+            } else {
+                variationMarginText.textContent = 'adequate margin';
+                alertDiv.innerHTML = `
+                    <div class="alert alert-success">
+                        ✓ <strong>Adequate Margin:</strong> Collateral value meets required margin requirements.
+                    </div>
+                `;
+            }
+
+            // Update explanation
+            updateExplanation(marketPrice, initialMargin, repoRate, repoDuration, purchasePrice, 
+                            haircut, repurchaseAmount, daysElapsed, daysRemaining, 
+                            currentCollateralValue, requiredCollateral, variationMargin, collateralValueAtDate);
+        }
+
+        function updateExplanation(marketPrice, initialMargin, repoRate, repoDuration, purchasePrice, 
+                                   haircut, repurchaseAmount, daysElapsed, daysRemaining, 
+                                   currentCollateralValue, requiredCollateral, variationMargin, collateralValueAtDate) {
+            let text = `The security market price is ${formatCurrency(marketPrice)} million. `;
+            text += `With an initial margin of ${initialMargin.toFixed(2)}%, the purchase price is calculated as: ${formatCurrency(marketPrice)} / (1 + ${initialMargin.toFixed(2)}%) = ${formatCurrency(purchasePrice)} million. `;
+            
+            text += `The haircut is: (${formatCurrency(marketPrice)} - ${formatCurrency(purchasePrice)}) / ${formatCurrency(marketPrice)} = ${formatPercent(haircut)}. `;
+            text += `Alternatively: 1 - 1/(1 + ${initialMargin.toFixed(2)}%) = ${formatPercent(haircut)}. `;
+            
+            const dayBasisText = repoDuration <= 365 ? '365' : 'compounded annually with remainder';
+            text += `For a ${repoDuration}-day repo at ${repoRate.toFixed(2)}% annual rate, the repurchase amount is: ${formatCurrency(purchasePrice)} × (1 + ${repoRate.toFixed(2)}% × ${repoDuration}/${dayBasisText}) = ${formatCurrency(repurchaseAmount)} million. `;
+            
+            if (daysElapsed > 0) {
+                text += `After ${daysElapsed} days (${daysRemaining} days remaining), the present value of the repo using 360-day basis is: ${formatCurrency(purchasePrice)} × (1 + ${repoRate.toFixed(2)}% × ${daysRemaining}/360) = ${formatCurrency(collateralValueAtDate)} million. `;
+                
+                text += `Adding the ${initialMargin.toFixed(2)}% margin, the required collateral value is: ${formatCurrency(requiredCollateral)} million. `;
+                
+                text += `The current collateral value is ${formatCurrency(currentCollateralValue)} million. `;
+                
+                if (variationMargin < -0.01) {
+                    text += `Since this is less than the required ${formatCurrency(requiredCollateral)} million, the variation margin is ${formatCurrency(Math.abs(variationMargin))} million which must be posted as additional collateral.`;
+                } else if (variationMargin > 0.01) {
+                    text += `Since this exceeds the required ${formatCurrency(requiredCollateral)} million, the excess collateral of ${formatCurrency(variationMargin)} million can be withdrawn.`;
+                } else {
+                    text += `This meets the required collateral value. The margin is adequate.`;
+                }
+            }
+
+            document.getElementById('explanation').textContent = text;
+        }
+
+        function resetAll() {
+            document.getElementById('marketPrice').value = 0;
+            document.getElementById('initialMargin').value = 0;
+            document.getElementById('repoRate').value = 0;
+            document.getElementById('repoDuration').value = 30;
+            document.getElementById('daysElapsed').value = 0;
+            document.getElementById('currentCollateralValue').value = 0;
+            calculate();
+        }
+
+        // Add event listeners
+        document.querySelectorAll('input').forEach(el => {
+            el.addEventListener('input', calculate);
+        });
+
+        // Initial calculation
+        calculate();
+    </script>
+</body>
+</html>
