@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hedge Fund Fee Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #FFF9E6 0%, #F5EDD1 50%, #FCE7C5 100%);
+            padding: 2rem;
+            color: #4a4a3a;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #3d3d2e;
+        }
+
+        .panel {
+            background: linear-gradient(135deg, #FFFEF8 0%, #FFF9ED 100%);
+            border: 2px solid #E8D5B7;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 16px rgba(212, 165, 116, 0.15);
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #3d3d2e;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #3d3d2e;
+        }
+
+        .label-with-tooltip {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tooltip-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #A8B99C 0%, #8FA885 100%);
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: help;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(168, 185, 156, 0.3);
+        }
+
+        .tooltip-icon:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #3d3d2e;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+            font-weight: normal;
+            width: 200px;
+            white-space: normal;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #E8D5B7;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: #FFFEF8;
+            color: #3d3d2e;
+            transition: all 0.2s ease;
+        }
+
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: #E89B5E;
+            box-shadow: 0 0 0 3px rgba(232, 155, 94, 0.1);
+            background: #ffffff;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .percent-label {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .percent-label span {
+            margin-top: 0.25rem;
+            font-weight: 600;
+            color: #7a7a62;
+        }
+
+        .toggle-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .toggle-btn {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid #D4A574;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: #7a7a62;
+        }
+
+        .toggle-btn.active {
+            background: linear-gradient(135deg, #E89B5E 0%, #D4A574 100%);
+            border-color: #E89B5E;
+            color: white;
+            box-shadow: 0 2px 8px rgba(232, 155, 94, 0.3);
+        }
+
+        .reset-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #E89B5E 0%, #D4A574 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(232, 155, 94, 0.3);
+        }
+
+        .reset-btn:hover {
+            background: linear-gradient(135deg, #D4A574 0%, #C09560 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(232, 155, 94, 0.4);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .metric {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFF5DC 100%);
+            padding: 1.25rem;
+            border-radius: 10px;
+            border: 2px solid #E8D5B7;
+            transition: all 0.3s ease;
+        }
+
+        .metric:hover {
+            border-color: #D4A574;
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: #7a7a62;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3d3d2e;
+        }
+
+        .metric-change {
+            font-size: 0.9rem;
+            color: #8FA885;
+            margin-top: 0.25rem;
+            font-weight: 600;
+        }
+
+        .explanation {
+            background: linear-gradient(135deg, #E8F4E1 0%, #D8E9D0 100%);
+            border: 2px solid #A8B99C;
+            border-radius: 12px;
+            padding: 1.5rem;
+            line-height: 1.8;
+            color: #4a5a44;
+            box-shadow: 0 4px 12px rgba(168, 185, 156, 0.15);
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #E8D5B7;
+            margin: 1.5rem 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #3d3d2e;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hedge Fund Fee Calculator</h1>
+
+        <!-- Input Section -->
+        <div class="panel">
+            <h2>Input</h2>
+
+            <div class="input-group">
+                <label class="label-with-tooltip">
+                    AUM at Beginning
+                    <span class="tooltip-icon" data-tooltip="Total assets under management at period start">i</span>
+                </label>
+                <input type="number" id="aumBegin" value="0" step="100000">
+            </div>
+
+            <hr>
+
+            <div class="input-group">
+                <label class="label-with-tooltip">
+                    AUM at End
+                    <span class="tooltip-icon" data-tooltip="Total assets under management at period end">i</span>
+                </label>
+                <input type="number" id="aumEnd" value="0" step="100000">
+            </div>
+
+            <hr>
+
+            <div class="input-group">
+                <label class="label-with-tooltip">
+                    Management Fee
+                    <span class="tooltip-icon" data-tooltip="Annual fee charged as percentage of AUM">i</span>
+                </label>
+                <div class="row">
+                    <div class="percent-label">
+                        <input type="number" id="mgmtFee" value="0" step="0.1" min="0" max="100">
+                        <span>%</span>
+                    </div>
+                    <select id="mgmtBasis">
+                        <option value="begin">Beginning AUM</option>
+                        <option value="end">Ending AUM</option>
+                    </select>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="input-group">
+                <label class="label-with-tooltip">
+                    Incentive Fee
+                    <span class="tooltip-icon" data-tooltip="Performance-based fee on investment returns">i</span>
+                </label>
+                <div class="row">
+                    <div class="percent-label">
+                        <input type="number" id="incentiveFee" value="0" step="0.1" min="0" max="100">
+                        <span>%</span>
+                    </div>
+                    <select id="incentiveBasis">
+                        <option value="net">Net of Management</option>
+                        <option value="gross">Gross</option>
+                    </select>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="input-group">
+                <label class="label-with-tooltip">
+                    Hurdle Rate
+                    <span class="tooltip-icon" data-tooltip="Minimum return threshold before incentive fees apply">i</span>
+                </label>
+                <div class="row">
+                    <div class="percent-label">
+                        <input type="number" id="hurdleRate" value="0" step="0.1" min="0" max="100">
+                        <span>%</span>
+                    </div>
+                    <select id="hurdleType">
+                        <option value="soft">Soft</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="input-group">
+                <label class="label-with-tooltip">
+                    High Watermark
+                    <span class="tooltip-icon" data-tooltip="Highest previous fund value for fee calculations">i</span>
+                </label>
+                <div class="toggle-container">
+                    <button class="toggle-btn active" id="hwmNo" onclick="toggleHWM(false)">No</button>
+                    <button class="toggle-btn" id="hwmYes" onclick="toggleHWM(true)">Yes</button>
+                </div>
+            </div>
+
+            <div class="input-group hidden" id="hwmAmountGroup">
+                <label class="label-with-tooltip">
+                    High Watermark Amount
+                    <span class="tooltip-icon" data-tooltip="Previous peak NAV value for fee determination">i</span>
+                </label>
+                <input type="number" id="hwmAmount" value="0" step="100000">
+            </div>
+
+            <hr>
+
+            <button class="reset-btn" onclick="resetAll()">Reset All</button>
+        </div>
+
+        <!-- Output Section -->
+        <div class="panel">
+            <h2>Output</h2>
+
+            <h3>
+                <span class="label-with-tooltip">
+                    GP's Return
+                    <span class="tooltip-icon" data-tooltip="General Partner's total compensation from fees">i</span>
+                </span>
+            </h3>
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Incentive Fee</div>
+                    <div class="metric-value" id="gpIncentive">₹0.00</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Management Fee</div>
+                    <div class="metric-value" id="gpManagement">₹0.00</div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h3>
+                <span class="label-with-tooltip">
+                    LP's Return
+                    <span class="tooltip-icon" data-tooltip="Limited Partner's net return after all fees">i</span>
+                </span>
+            </h3>
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Gross Return</div>
+                    <div class="metric-value" id="lpGross">₹0.00</div>
+                    <div class="metric-change" id="lpGrossPct">0.00%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Net Return</div>
+                    <div class="metric-value" id="lpNet">₹0.00</div>
+                    <div class="metric-change" id="lpNetPct">0.00%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Explanation Section -->
+        <div class="panel">
+            <h2>Explanation</h2>
+            <div class="explanation" id="explanation">Enter values to see calculation breakdown</div>
+        </div>
+    </div>
+
+    <script>
+        let hwmEnabled = false;
+
+        function toggleHWM(enabled) {
+            hwmEnabled = enabled;
+            document.getElementById('hwmYes').classList.toggle('active', enabled);
+            document.getElementById('hwmNo').classList.toggle('active', !enabled);
+            document.getElementById('hwmAmountGroup').classList.toggle('hidden', !enabled);
+            calculate();
+        }
+
+        function formatCurrency(value) {
+            return '₹' + value.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+
+        function formatPercent(value) {
+            return value.toFixed(2) + '%';
+        }
+
+        function calculate() {
+            const aumBegin = parseFloat(document.getElementById('aumBegin').value) || 0;
+            const aumEnd = parseFloat(document.getElementById('aumEnd').value) || 0;
+            const mgmtFeePct = parseFloat(document.getElementById('mgmtFee').value) || 0;
+            const mgmtBasis = document.getElementById('mgmtBasis').value;
+            const incentiveFeePct = parseFloat(document.getElementById('incentiveFee').value) || 0;
+            const incentiveBasis = document.getElementById('incentiveBasis').value;
+            const hurdleRate = parseFloat(document.getElementById('hurdleRate').value) || 0;
+            const hurdleType = document.getElementById('hurdleType').value;
+            const hwmAmount = hwmEnabled ? (parseFloat(document.getElementById('hwmAmount').value) || 0) : 0;
+
+            const grossReturn = aumEnd - aumBegin;
+
+            let managementFee;
+            if (mgmtBasis === 'begin') {
+                managementFee = (mgmtFeePct / 100) * aumBegin;
+            } else {
+                managementFee = (mgmtFeePct / 100) * aumEnd;
+            }
+
+            const returnAfterMgmt = grossReturn - managementFee;
+
+            let incentiveFee = 0;
+            let incentiveBaseReturn, incentiveBaseAum;
+
+            if (incentiveBasis === 'net') {
+                incentiveBaseReturn = returnAfterMgmt;
+                incentiveBaseAum = aumBegin;
+            } else {
+                incentiveBaseReturn = grossReturn;
+                incentiveBaseAum = aumBegin;
+            }
+
+            const hurdleAmount = (hurdleRate / 100) * incentiveBaseAum;
+
+            if (hwmEnabled) {
+                if (aumEnd > hwmAmount) {
+                    const gainsAboveHWM = aumEnd - hwmAmount;
+                    
+                    if (hurdleType === 'hard') {
+                        if (incentiveBaseReturn > hurdleAmount) {
+                            const excessReturn = incentiveBaseReturn - hurdleAmount;
+                            const chargeableReturn = Math.min(excessReturn, gainsAboveHWM);
+                            incentiveFee = (incentiveFeePct / 100) * chargeableReturn;
+                        }
+                    } else {
+                        if (incentiveBaseReturn > hurdleAmount) {
+                            const chargeableReturn = Math.min(incentiveBaseReturn, gainsAboveHWM);
+                            incentiveFee = (incentiveFeePct / 100) * chargeableReturn;
+                        }
+                    }
+                }
+            } else {
+                if (hurdleType === 'hard') {
+                    if (incentiveBaseReturn > hurdleAmount) {
+                        const excessReturn = incentiveBaseReturn - hurdleAmount;
+                        incentiveFee = (incentiveFeePct / 100) * excessReturn;
+                    }
+                } else {
+                    if (incentiveBaseReturn > hurdleAmount) {
+                        incentiveFee = (incentiveFeePct / 100) * incentiveBaseReturn;
+                    }
+                }
+            }
+
+            const lpNetReturn = grossReturn - managementFee - incentiveFee;
+            const gpReturn = managementFee + incentiveFee;
+
+            const grossReturnPct = aumBegin > 0 ? (grossReturn / aumBegin * 100) : 0;
+            const netReturnPct = aumBegin > 0 ? (lpNetReturn / aumBegin * 100) : 0;
+
+            document.getElementById('gpIncentive').textContent = formatCurrency(incentiveFee);
+            document.getElementById('gpManagement').textContent = formatCurrency(managementFee);
+            document.getElementById('lpGross').textContent = formatCurrency(grossReturn);
+            document.getElementById('lpGrossPct').textContent = formatPercent(grossReturnPct);
+            document.getElementById('lpNet').textContent = formatCurrency(lpNetReturn);
+            document.getElementById('lpNetPct').textContent = formatPercent(netReturnPct);
+
+            updateExplanation(aumBegin, aumEnd, grossReturn, managementFee, mgmtFeePct, mgmtBasis, 
+                            returnAfterMgmt, hurdleRate, hurdleType, hurdleAmount, hwmEnabled, 
+                            hwmAmount, incentiveFeePct, incentiveBasis, incentiveFee, lpNetReturn);
+        }
+
+        function updateExplanation(aumBegin, aumEnd, grossReturn, managementFee, mgmtFeePct, 
+                                   mgmtBasis, returnAfterMgmt, hurdleRate, hurdleType, hurdleAmount, 
+                                   hwmEnabled, hwmAmount, incentiveFeePct, incentiveBasis, 
+                                   incentiveFee, lpNetReturn) {
+            let text = `The AUM at the Beginning of the period is ${formatCurrency(aumBegin)} `;
+            text += `The AUM at the end of the period is ${formatCurrency(aumEnd)} `;
+            text += `The gross return to the limited partner is (Ending AUM - Beginning AUM) i.e. ${formatCurrency(aumEnd)} - ${formatCurrency(aumBegin)} which is ${formatCurrency(grossReturn)} `;
+            text += `The management fee is ${mgmtFeePct.toFixed(2)}% charged at the ${mgmtBasis === 'begin' ? 'beginning' : 'ending'} AUM which is ${formatCurrency(managementFee)} `;
+            text += `The AUM return after management fee is (AUM return - Mgmt fee) i.e. ${formatCurrency(grossReturn)} - ${formatCurrency(managementFee)} which is ${formatCurrency(returnAfterMgmt)} `;
+
+            const basisText = incentiveBasis === 'net' ? 'Net of Management fee' : 'Gross';
+            const hwmText = hwmEnabled ? ` and a high watermark clause of ${formatCurrency(hwmAmount)}` : '';
+            text += `The incentive fee charged by the hedge fund is ${incentiveFeePct.toFixed(2)}% ${basisText} with a ${hurdleType} hurdle rate of ${hurdleRate.toFixed(2)}%${hwmText} is ${formatCurrency(incentiveFee)} `;
+            
+            text += `The net return to the limited partner is (Gross return - Management fee - Incentive fee) i.e. ${formatCurrency(grossReturn)} - ${formatCurrency(managementFee)} - ${formatCurrency(incentiveFee)} which is ${formatCurrency(lpNetReturn)}`;
+
+            document.getElementById('explanation').textContent = text;
+        }
+
+        function resetAll() {
+            document.getElementById('aumBegin').value = 0;
+            document.getElementById('aumEnd').value = 0;
+            document.getElementById('mgmtFee').value = 0;
+            document.getElementById('mgmtBasis').value = 'begin';
+            document.getElementById('incentiveFee').value = 0;
+            document.getElementById('incentiveBasis').value = 'net';
+            document.getElementById('hurdleRate').value = 0;
+            document.getElementById('hurdleType').value = 'soft';
+            document.getElementById('hwmAmount').value = 0;
+            toggleHWM(false);
+            calculate();
+        }
+
+        document.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', calculate);
+            el.addEventListener('change', calculate);
+        });
+
+        calculate();
+    </script>
+</body>
+</html>
