@@ -1,1 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compounding Converter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FFF9E6 0%, #F5EDD1 50%, #FCE7C5 100%);
+            font-family: 'Inter', sans-serif;
+            padding: 2rem;
+            color: #4a4a3a;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 4rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #D4A574;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #3d3d2e;
+            margin: 0 0 0.5rem 0;
+            letter-spacing: -0.01em;
+        }
+
+        .underline {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #E89B5E 0%, #D4A574 100%);
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: #7a7a62;
+            font-size: 1rem;
+            max-width: 600px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #A8B99C 0%, #8FA885 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #D4A574;
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.2);
+        }
+
+        .icon-text {
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .section {
+            background: linear-gradient(135deg, #FFFEF8 0%, #FFF9ED 100%);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 2px solid #E8D5B7;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 16px rgba(212, 165, 116, 0.15);
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #3d3d2e;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .about-text {
+            color: #5a5a48;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .reset-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #E89B5E 0%, #D4A574 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 0.7rem 1.5rem;
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: 0 2px 8px rgba(232, 155, 94, 0.3);
+        }
+
+        .reset-btn:hover {
+            background: linear-gradient(135deg, #D4A574 0%, #C09560 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(232, 155, 94, 0.4);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #FFFEF8 0%, #FFF9ED 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid #E8D5B7;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(212, 165, 116, 0.1);
+        }
+
+        .card:hover {
+            border-color: #D4A574;
+            box-shadow: 0 4px 16px rgba(212, 165, 116, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #3d3d2e;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.75rem;
+            align-items: stretch;
+        }
+
+        .input {
+            flex: 1;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #3d3d2e;
+            background: #FFFEF8;
+            border: 2px solid #E8D5B7;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            height: 52px;
+        }
+
+        .input:focus {
+            border-color: #E89B5E;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(232, 155, 94, 0.1);
+        }
+
+        .percent-badge {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #A8B99C 0%, #8FA885 100%);
+            color: #ffffff;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: 2px solid #A8B99C;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(168, 185, 156, 0.3);
+        }
+
+        .explanation {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFF5DC 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 2;
+            color: #5a5a48;
+            border: 2px solid #E8D5B7;
+        }
+
+        .formula {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 2rem;
+            border-top: 2px solid #E8D5B7;
+        }
+
+        .feedback-btn {
+            background: transparent;
+            border: 2px solid #D4A574;
+            color: #7a7a62;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .feedback-btn:hover {
+            border-color: #E89B5E;
+            color: #3d3d2e;
+            background: rgba(232, 155, 94, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <h1>Compounding Converter</h1>
+                <div class="underline"></div>
+                <p class="subtitle">Calculate equivalent rates for various compounding frequencies</p>
+            </div>
+            <div class="icon">
+                <div class="icon-text">%</div>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <div class="section">
+            <h2>About</h2>
+            <p class="about-text">
+                This calculator provides precise conversions between different compounding frequencies. Financial institutions 
+                may quote interest rates using various compounding periods—understanding these equivalencies is essential for 
+                accurate comparison of investment vehicles and loan products. The tool demonstrates how more frequent compounding 
+                affects the effective rate of return, offering clarity on what may initially appear to be subtle differences 
+                in rate structures.
+            </p>
+        </div>
+
+        <!-- Input & Output Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2>Calculator</h2>
+                <button class="reset-btn" onclick="resetAll()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 4v6h6M23 20v-6h-6"/>
+                        <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
+                    </svg>
+                    Reset
+                </button>
+            </div>
+
+            <div class="grid">
+                <!-- Annually -->
+                <div class="card">
+                    <h3>Annually</h3>
+                    <div class="input-group">
+                        <input type="text" class="input" id="annually" value="0" oninput="calculateFromAnnual()">
+                        <div class="percent-badge">%</div>
+                    </div>
+                </div>
+
+                <!-- Semi-annually -->
+                <div class="card">
+                    <h3>Semi-annually</h3>
+                    <div class="input-group">
+                        <input type="text" class="input" id="semiAnnually" value="0" oninput="calculateFromSemiAnnual()">
+                        <div class="percent-badge">%</div>
+                    </div>
+                </div>
+
+                <!-- Quarterly -->
+                <div class="card">
+                    <h3>Quarterly</h3>
+                    <div class="input-group">
+                        <input type="text" class="input" id="quarterly" value="0" oninput="calculateFromQuarterly()">
+                        <div class="percent-badge">%</div>
+                    </div>
+                </div>
+
+                <!-- Monthly -->
+                <div class="card">
+                    <h3>Monthly</h3>
+                    <div class="input-group">
+                        <input type="text" class="input" id="monthly" value="0" oninput="calculateFromMonthly()">
+                        <div class="percent-badge">%</div>
+                    </div>
+                </div>
+
+                <!-- Daily -->
+                <div class="card">
+                    <h3>Daily</h3>
+                    <div class="input-group">
+                        <input type="text" class="input" id="daily" value="0" oninput="calculateFromDaily()">
+                        <div class="percent-badge">%</div>
+                    </div>
+                </div>
+
+                <!-- Continuously -->
+                <div class="card">
+                    <h3>Continuously</h3>
+                    <div class="input-group">
+                        <input type="text" class="input" id="continuous" value="0" oninput="calculateFromContinuous()">
+                        <div class="percent-badge">%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Explanation Section -->
+        <div class="section">
+            <h2>Mathematical Formulas</h2>
+            <div class="explanation" id="explanation">
+                <div class="formula">r<sub>semi-annual</sub> = 2((1 + r)<sup>1/2</sup> − 1) = 0.00%</div>
+                <div class="formula">r<sub>quarterly</sub> = 4((1 + r)<sup>1/4</sup> − 1) = 0.00%</div>
+                <div class="formula">r<sub>monthly</sub> = 12((1 + r)<sup>1/12</sup> − 1) = 0.00%</div>
+                <div class="formula">r<sub>daily</sub> = 365((1 + r)<sup>1/365</sup> − 1) = 0.00%</div>
+                <div class="formula">r<sub>continuous</sub> = ln(1 + r) = 0.00%</div>
+            </div>
+        </div>
+
+        
+    </div>
+
+    <script>
+        let isUpdating = false;
+
+        function updateExplanation(annual) {
+            const r = annual / 100;
+            const semiAnnually = (Math.pow(1 + r, 1/2) - 1) * 100;
+            const quarterly = (Math.pow(1 + r, 1/4) - 1) * 100;
+            const monthly = (Math.pow(1 + r, 1/12) - 1) * 100;
+            const daily = (Math.pow(1 + r, 1/365) - 1) * 100;
+            const continuous = Math.log(1 + r) * 100;
+
+            document.getElementById('explanation').innerHTML = `
+                <div class="formula">r<sub>semi-annual</sub> = 2((1 + r)<sup>1/2</sup> − 1) = ${semiAnnually.toFixed(2)}%</div>
+                <div class="formula">r<sub>quarterly</sub> = 4((1 + r)<sup>1/4</sup> − 1) = ${quarterly.toFixed(2)}%</div>
+                <div class="formula">r<sub>monthly</sub> = 12((1 + r)<sup>1/12</sup> − 1) = ${monthly.toFixed(2)}%</div>
+                <div class="formula">r<sub>daily</sub> = 365((1 + r)<sup>1/365</sup> − 1) = ${daily.toFixed(2)}%</div>
+                <div class="formula">r<sub>continuous</sub> = ln(1 + r) = ${continuous.toFixed(2)}%</div>
+            `;
+        }
+
+        function calculateFromAnnual() {
+            if (isUpdating) return;
+            isUpdating = true;
+
+            const annual = parseFloat(document.getElementById('annually').value) || 0;
+            const r = annual / 100;
+
+            const semiAnnually = (Math.pow(1 + r, 1/2) - 1) * 100;
+            const quarterly = (Math.pow(1 + r, 1/4) - 1) * 100;
+            const monthly = (Math.pow(1 + r, 1/12) - 1) * 100;
+            const daily = (Math.pow(1 + r, 1/365) - 1) * 100;
+            const continuous = Math.log(1 + r) * 100;
+
+            document.getElementById('semiAnnually').value = semiAnnually.toFixed(4);
+            document.getElementById('quarterly').value = quarterly.toFixed(4);
+            document.getElementById('monthly').value = monthly.toFixed(4);
+            document.getElementById('daily').value = daily.toFixed(4);
+            document.getElementById('continuous').value = continuous.toFixed(4);
+
+            updateExplanation(annual);
+            isUpdating = false;
+        }
+
+        function calculateFromSemiAnnual() {
+            if (isUpdating) return;
+            isUpdating = true;
+
+            const semiAnnualRate = parseFloat(document.getElementById('semiAnnually').value) || 0;
+            const annual = (Math.pow(1 + semiAnnualRate / 100, 2) - 1) * 100;
+            const r = annual / 100;
+
+            document.getElementById('annually').value = annual.toFixed(4);
+            document.getElementById('quarterly').value = ((Math.pow(1 + r, 1/4) - 1) * 100).toFixed(4);
+            document.getElementById('monthly').value = ((Math.pow(1 + r, 1/12) - 1) * 100).toFixed(4);
+            document.getElementById('daily').value = ((Math.pow(1 + r, 1/365) - 1) * 100).toFixed(4);
+            document.getElementById('continuous').value = (Math.log(1 + r) * 100).toFixed(4);
+
+            updateExplanation(annual);
+            isUpdating = false;
+        }
+
+        function calculateFromQuarterly() {
+            if (isUpdating) return;
+            isUpdating = true;
+
+            const quarterlyRate = parseFloat(document.getElementById('quarterly').value) || 0;
+            const annual = (Math.pow(1 + quarterlyRate / 100, 4) - 1) * 100;
+            const r = annual / 100;
+
+            document.getElementById('annually').value = annual.toFixed(4);
+            document.getElementById('semiAnnually').value = ((Math.pow(1 + r, 1/2) - 1) * 100).toFixed(4);
+            document.getElementById('monthly').value = ((Math.pow(1 + r, 1/12) - 1) * 100).toFixed(4);
+            document.getElementById('daily').value = ((Math.pow(1 + r, 1/365) - 1) * 100).toFixed(4);
+            document.getElementById('continuous').value = (Math.log(1 + r) * 100).toFixed(4);
+
+            updateExplanation(annual);
+            isUpdating = false;
+        }
+
+        function calculateFromMonthly() {
+            if (isUpdating) return;
+            isUpdating = true;
+
+            const monthlyRate = parseFloat(document.getElementById('monthly').value) || 0;
+            const annual = (Math.pow(1 + monthlyRate / 100, 12) - 1) * 100;
+            const r = annual / 100;
+
+            document.getElementById('annually').value = annual.toFixed(4);
+            document.getElementById('semiAnnually').value = ((Math.pow(1 + r, 1/2) - 1) * 100).toFixed(4);
+            document.getElementById('quarterly').value = ((Math.pow(1 + r, 1/4) - 1) * 100).toFixed(4);
+            document.getElementById('daily').value = ((Math.pow(1 + r, 1/365) - 1) * 100).toFixed(4);
+            document.getElementById('continuous').value = (Math.log(1 + r) * 100).toFixed(4);
+
+            updateExplanation(annual);
+            isUpdating = false;
+        }
+
+        function calculateFromDaily() {
+            if (isUpdating) return;
+            isUpdating = true;
+
+            const dailyRate = parseFloat(document.getElementById('daily').value) || 0;
+            const annual = (Math.pow(1 + dailyRate / 100, 365) - 1) * 100;
+            const r = annual / 100;
+
+            document.getElementById('annually').value = annual.toFixed(4);
+            document.getElementById('semiAnnually').value = ((Math.pow(1 + r, 1/2) - 1) * 100).toFixed(4);
+            document.getElementById('quarterly').value = ((Math.pow(1 + r, 1/4) - 1) * 100).toFixed(4);
+            document.getElementById('monthly').value = ((Math.pow(1 + r, 1/12) - 1) * 100).toFixed(4);
+            document.getElementById('continuous').value = (Math.log(1 + r) * 100).toFixed(4);
+
+            updateExplanation(annual);
+            isUpdating = false;
+        }
+
+        function calculateFromContinuous() {
+            if (isUpdating) return;
+            isUpdating = true;
+
+            const continuousRate = parseFloat(document.getElementById('continuous').value) || 0;
+            const annual = (Math.exp(continuousRate / 100) - 1) * 100;
+            const r = annual / 100;
+
+            document.getElementById('annually').value = annual.toFixed(4);
+            document.getElementById('semiAnnually').value = ((Math.pow(1 + r, 1/2) - 1) * 100).toFixed(4);
+            document.getElementById('quarterly').value = ((Math.pow(1 + r, 1/4) - 1) * 100).toFixed(4);
+            document.getElementById('monthly').value = ((Math.pow(1 + r, 1/12) - 1) * 100).toFixed(4);
+            document.getElementById('daily').value = ((Math.pow(1 + r, 1/365) - 1) * 100).toFixed(4);
+
+            updateExplanation(annual);
+            isUpdating = false;
+        }
+
+        function resetAll() {
+            isUpdating = true;
+            document.getElementById('annually').value = '0';
+            document.getElementById('semiAnnually').value = '0';
+            document.getElementById('quarterly').value = '0';
+            document.getElementById('monthly').value = '0';
+            document.getElementById('daily').value = '0';
+            document.getElementById('continuous').value = '0';
+            updateExplanation(0);
+            isUpdating = false;
+        }
+    </script>
+</body>
+</html>
 
