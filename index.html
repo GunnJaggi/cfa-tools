@@ -1,4 +1,4 @@
-Cfa tools styled · HTML
+Cfa tools · HTML
 Copy
 
 <!DOCTYPE html>
@@ -240,26 +240,19 @@ Copy
             margin-top: 1rem;
         }
 
+        .status-development {
+            background: #fff3cd;
+            color: #856404;
+        }
+
         .status-completed {
             background: #d4edda;
             color: #155724;
         }
 
-        /* Back Link */
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--color-text);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.8rem 0;
-            margin-bottom: 2rem;
-            transition: color 0.3s ease;
-        }
-
-        .back-link:hover {
-            color: var(--color-accent);
+        .status-planned {
+            background: #e8eef2;
+            color: var(--color-muted);
         }
 
         /* Footer */
@@ -343,71 +336,126 @@ Copy
 <body>
     <div class="container">
         <nav>
-            <a href="https://gunnjaggi.github.io/GunnJaggi/index.html" class="logo">Gunn Jaggi</a>
+            <a href="index.html" class="logo">Portfolio</a>
             <ul class="nav-links">
-                <li><a href="https://gunnjaggi.github.io/GunnJaggi/index.html#about">About</a></li>
-                <li><a href="https://gunnjaggi.github.io/GunnJaggi/index.html#experience">Experience</a></li>
-                <li><a href="https://gunnjaggi.github.io/GunnJaggi/index.html#education">Education</a></li>
-                <li><a href="https://gunnjaggi.github.io/GunnJaggi/index.html#skills">Skills</a></li>
-                <li><a href="/cfa-tools/" class="active">CFA Tools</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#experience">Experience</a></li>
+                <li><a href="index.html#education">Education</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="cfa-tools.html" class="active">CFA Tools</a></li>
             </ul>
         </nav>
 
-        <a href="https://gunnjaggi.github.io/GunnJaggi/index.html" class="back-link">← Back to Home</a>
-
         <div class="page-header">
-            <h1 class="page-title">CFA Finance Tools</h1>
+            <h1 class="page-title">CFA Tools & Projects</h1>
             <p class="page-subtitle">
-                A collection of interactive finance calculators for CFA Level 1 topics. 
-                Built with Python and designed to streamline financial analysis and exam preparation.
+                A collection of financial analysis tools and calculators built using Python, 
+                designed to streamline CFA studies and professional financial analysis workflows.
             </p>
         </div>
 
         <div class="tools-grid">
-            <!-- Tool 1: Compounding Calculator -->
-            <a href="compounding-calculator/" class="tool-card">
-                <div class="tool-icon">📈</div>
-                <h3 class="tool-name">Compounding Calculator</h3>
+            <!-- Tool 1: Portfolio Optimizer -->
+            <a href="#" class="tool-card">
+                <div class="tool-icon">📊</div>
+                <h3 class="tool-name">Portfolio Optimizer</h3>
                 <p class="tool-description">
-                    Calculate future value, present value, and growth rates using various compounding 
-                    frequencies. Essential for time value of money calculations in CFA Level 1.
+                    Modern Portfolio Theory implementation using Python. Calculate efficient frontier, 
+                    optimal portfolio weights, and risk-return metrics for multi-asset portfolios.
                 </p>
                 <div class="tool-tags">
-                    <span class="tool-tag">Time Value of Money</span>
-                    <span class="tool-tag">CFA Level 1</span>
+                    <span class="tool-tag">Python</span>
+                    <span class="tool-tag">NumPy</span>
+                    <span class="tool-tag">Pandas</span>
                 </div>
-                <span class="tool-status status-completed">Live</span>
+                <span class="tool-status status-development">In Development</span>
             </a>
 
-            <!-- Tool 2: Hedge Fund Fees Calculator -->
-            <a href="hedge-fund-fees-calculator/" class="tool-card">
-                <div class="tool-icon">💼</div>
-                <h3 class="tool-name">Hedge Fund Fees Calculator</h3>
-                <p class="tool-description">
-                    Compute management fees, performance fees, and total costs for hedge fund investments. 
-                    Understand the "2 and 20" fee structure and its impact on returns.
-                </p>
-                <div class="tool-tags">
-                    <span class="tool-tag">Alternative Investments</span>
-                    <span class="tool-tag">Fee Analysis</span>
-                </div>
-                <span class="tool-status status-completed">Live</span>
-            </a>
-
-            <!-- Tool 3: Repo Rate Calculator -->
-            <a href="repo-rate-calculator/" class="tool-card">
+            <!-- Tool 2: Bond Valuation Calculator -->
+            <a href="#" class="tool-card">
                 <div class="tool-icon">💰</div>
-                <h3 class="tool-name">Repo Rate Calculator</h3>
+                <h3 class="tool-name">Bond Valuation Calculator</h3>
                 <p class="tool-description">
-                    Calculate implied repo rates and analyze repurchase agreement transactions. 
-                    Perfect for understanding fixed income markets and short-term financing.
+                    Comprehensive bond pricing tool calculating present value, yield to maturity, 
+                    duration, and convexity for fixed-income securities.
                 </p>
                 <div class="tool-tags">
-                    <span class="tool-tag">Fixed Income</span>
-                    <span class="tool-tag">Money Markets</span>
+                    <span class="tool-tag">Python</span>
+                    <span class="tool-tag">Finance</span>
                 </div>
-                <span class="tool-status status-completed">Live</span>
+                <span class="tool-status status-development">In Development</span>
+            </a>
+
+            <!-- Tool 3: Financial Ratio Analyzer -->
+            <a href="#" class="tool-card">
+                <div class="tool-icon">📈</div>
+                <h3 class="tool-name">Financial Ratio Analyzer</h3>
+                <p class="tool-description">
+                    Automated financial statement analysis tool. Input balance sheet and income 
+                    statement data to calculate key ratios across liquidity, profitability, and solvency.
+                </p>
+                <div class="tool-tags">
+                    <span class="tool-tag">Python</span>
+                    <span class="tool-tag">Pandas</span>
+                </div>
+                <span class="tool-status status-planned">Planned</span>
+            </a>
+
+            <!-- Tool 4: DCF Valuation Model -->
+            <a href="#" class="tool-card">
+                <div class="tool-icon">💼</div>
+                <h3 class="tool-name">DCF Valuation Model</h3>
+                <p class="tool-description">
+                    Discounted Cash Flow model for equity valuation. Project future cash flows, 
+                    calculate WACC, and determine intrinsic value of companies.
+                </p>
+                <div class="tool-tags">
+                    <span class="tool-tag">Python</span>
+                    <span class="tool-tag">Matplotlib</span>
+                </div>
+                <span class="tool-status status-planned">Planned</span>
+            </a>
+
+            <!-- Tool 5: Options Pricing Calculator -->
+            <a href="#" class="tool-card">
+                <div class="tool-icon">📉</div>
+                <h3 class="tool-name">Options Pricing Calculator</h3>
+                <p class="tool-description">
+                    Black-Scholes and Binomial Tree models for pricing European and American options. 
+                    Calculate Greeks and visualize option payoff diagrams.
+                </p>
+                <div class="tool-tags">
+                    <span class="tool-tag">Python</span>
+                    <span class="tool-tag">SciPy</span>
+                </div>
+                <span class="tool-status status-planned">Planned</span>
+            </a>
+
+            <!-- Tool 6: Market Data Dashboard -->
+            <a href="#" class="tool-card">
+                <div class="tool-icon">🌐</div>
+                <h3 class="tool-name">Market Data Dashboard</h3>
+                <p class="tool-description">
+                    Real-time market data visualization dashboard. Track indices, currencies, 
+                    commodities, and create custom watchlists with interactive charts.
+                </p>
+                <div class="tool-tags">
+                    <span class="tool-tag">Python</span>
+                    <span class="tool-tag">APIs</span>
+                    <span class="tool-tag">Plotly</span>
+                </div>
+                <span class="tool-status status-planned">Planned</span>
             </a>
         </div>
 
         <footer>
+            <div class="social-links">
+                <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+                <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
+                <a href="mailto:your.email@example.com">Email</a>
+            </div>
+            <p>&copy; 2025 All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
