@@ -1,25 +1,21 @@
-ML
-Copy
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFA Tools - Portfolio</title>
+    <title>CFA Tools - Gunn Jaggi</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-bg: #f8fafb;
-            --color-text: #2c3e50;
-            --color-accent: #3498db;
-            --color-accent-dark: #2980b9;
-            --color-muted: #7f8c8d;
-            --color-border: #e8eef2;
-            --color-card: #ffffff;
-            --color-highlight: #e3f2fd;
+            --color-bg: #ffffff;
+            --color-text: #000000;
+            --color-text-muted: #666666;
+            --color-accent: #0066ff;
+            --color-border: #e5e5e5;
+            --color-section-bg: #fafafa;
         }
 
         * {
@@ -28,386 +24,442 @@ Copy
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Inter', sans-serif;
             background: var(--color-bg);
             color: var(--color-text);
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
-
-        /* Decorative background elements */
-        body::before {
-            content: '';
-            position: fixed;
-            top: -50%;
-            right: -20%;
-            width: 80%;
-            height: 80%;
-            background: radial-gradient(circle, rgba(52, 152, 219, 0.05) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: -30%;
-            left: -10%;
-            width: 60%;
-            height: 60%;
-            background: radial-gradient(circle, rgba(52, 152, 219, 0.03) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 1;
+            line-height: 1.6;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* Navigation */
         nav {
-            padding: 3rem 0 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--color-border);
+            z-index: 1000;
+            padding: 1.5rem 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--color-border);
-            margin-bottom: 4rem;
-            animation: slideDown 0.8s ease-out;
         }
 
         .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--color-text);
             text-decoration: none;
-            letter-spacing: -0.01em;
+            letter-spacing: -0.02em;
         }
 
         .nav-links {
             display: flex;
             gap: 2.5rem;
             list-style: none;
+            align-items: center;
         }
 
         .nav-links a {
             color: var(--color-text);
             text-decoration: none;
-            font-weight: 500;
             font-size: 0.95rem;
-            position: relative;
+            font-weight: 500;
             transition: color 0.3s ease;
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--color-accent);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--color-accent);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
+        .nav-links a:hover,
         .nav-links a.active {
             color: var(--color-accent);
         }
 
-        /* Page Header */
-        .page-header {
-            padding: 3rem 0 4rem;
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--color-accent);
+            transform: translateX(-4px);
+        }
+
+        .back-link::before {
+            content: '← ';
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            background: var(--color-text);
+            color: white;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 3rem;
+            width: 100%;
             text-align: center;
-            animation: fadeIn 1s ease-out 0.2s both;
         }
 
-        .page-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--color-text);
-            letter-spacing: -0.02em;
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            letter-spacing: -0.03em;
         }
 
-        .page-subtitle {
-            font-size: 1.2rem;
-            color: var(--color-muted);
-            max-width: 700px;
-            margin: 0 auto 2rem;
-            line-height: 1.8;
+        .hero p {
+            font-size: 1.3rem;
+            color: #999;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
         }
 
-        /* Tools Grid */
+        /* Tools Section */
+        .tools-section {
+            padding: 8rem 0;
+        }
+
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-bottom: 5rem;
-            animation: fadeIn 1s ease-out 0.4s both;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
         }
 
         .tool-card {
-            background: var(--color-card);
+            background: white;
             border: 1px solid var(--color-border);
             border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            padding: 3rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             text-decoration: none;
             color: var(--color-text);
             display: block;
+            transform-style: preserve-3d;
         }
 
         .tool-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 32px rgba(52, 152, 219, 0.18);
+            transform: translateY(-12px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
             border-color: var(--color-accent);
         }
 
         .tool-icon {
-            width: 56px;
-            height: 56px;
-            background: var(--color-highlight);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 3rem;
             margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-            transition: all 0.3s ease;
-        }
-
-        .tool-card:hover .tool-icon {
-            background: var(--color-accent);
-            transform: scale(1.1);
-        }
-
-        .tool-card:hover .tool-icon::after {
-            filter: brightness(0) invert(1);
+            display: block;
         }
 
         .tool-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            color: var(--color-text);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
         }
 
         .tool-description {
-            color: var(--color-muted);
+            color: var(--color-text-muted);
             line-height: 1.7;
-            margin-bottom: 1.2rem;
-            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
         }
 
         .tool-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin-top: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .tool-tag {
-            background: var(--color-bg);
-            color: var(--color-accent-dark);
-            padding: 0.3rem 0.8rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 500;
+            background: var(--color-section-bg);
+            color: var(--color-text-muted);
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
         }
 
         .tool-status {
             display: inline-block;
-            padding: 0.3rem 0.9rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-top: 1rem;
-        }
-
-        .status-completed {
+            font-size: 0.8rem;
+            font-weight: 700;
             background: #d4edda;
             color: #155724;
         }
 
-        /* Back Link */
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--color-text);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.8rem 0;
-            margin-bottom: 2rem;
-            transition: color 0.3s ease;
-        }
-
-        .back-link:hover {
-            color: var(--color-accent);
-        }
-
         /* Footer */
         footer {
+            background: var(--color-text);
+            color: white;
             padding: 3rem 0;
             text-align: center;
-            border-top: 1px solid var(--color-border);
-            color: var(--color-muted);
-            margin-top: 6rem;
         }
 
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1.5rem;
+        footer p {
+            color: #999;
+            font-size: 0.95rem;
         }
 
-        .social-links a {
-            color: var(--color-text);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
+        /* Scroll reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .social-links a:hover {
-            color: var(--color-accent);
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Animations */
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Stagger delay for cards */
+        .tool-card:nth-child(1) { transition-delay: 0.1s; }
+        .tool-card:nth-child(2) { transition-delay: 0.2s; }
+        .tool-card:nth-child(3) { transition-delay: 0.3s; }
+
+        /* Gradient animation */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .hero {
+            background: linear-gradient(-45deg, #000000, #1a1a1a, #000000, #0a0a0a);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 1.5rem;
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3.5rem;
             }
 
-            nav {
-                flex-direction: column;
-                gap: 1.5rem;
-                text-align: center;
-            }
-
-            .page-title {
-                font-size: 2.5rem;
+            .nav-container,
+            .section-container,
+            .hero-container {
+                padding-left: 2rem;
+                padding-right: 2rem;
             }
 
             .tools-grid {
                 grid-template-columns: 1fr;
             }
+        }
 
+        @media (max-width: 768px) {
             .nav-links {
-                gap: 1.5rem;
-                flex-wrap: wrap;
-                justify-content: center;
+                display: none;
             }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .tools-section {
+                padding: 5rem 0;
+            }
+        }
+
+        /* Smooth animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero {
+            animation: fadeIn 0.8s ease-out;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <nav>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
             <a href="https://gunnjaggi.github.io/GunnJaggi/index.html" class="logo">Gunn Jaggi</a>
             <ul class="nav-links">
                 <li><a href="https://gunnjaggi.github.io/GunnJaggi/index.html#about">About</a></li>
                 <li><a href="https://gunnjaggi.github.io/GunnJaggi/index.html#experience">Experience</a></li>
                 <li><a href="https://gunnjaggi.github.io/GunnJaggi/index.html#education">Education</a></li>
                 <li><a href="https://gunnjaggi.github.io/GunnJaggi/index.html#skills">Skills</a></li>
+                <li><a href="https://gunnjaggi.github.io/GunnJaggi/index.html#volunteering">Volunteering</a></li>
                 <li><a href="/cfa-tools/" class="active">CFA Tools</a></li>
             </ul>
-        </nav>
+        </div>
+    </nav>
 
-        <a href="https://gunnjaggi.github.io/GunnJaggi/index.html" class="back-link">← Back to Home</a>
-
-        <div class="page-header">
-            <h1 class="page-title">CFA Finance Tools</h1>
-            <p class="page-subtitle">
-                A collection of interactive finance calculators for CFA Level 1 topics. 
-                Built with Python and designed to streamline financial analysis and exam preparation.
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <a href="https://gunnjaggi.github.io/GunnJaggi/index.html" class="back-link">Back to Home</a>
+            <h1>CFA Finance Tools</h1>
+            <p>
+                Interactive calculators built for CFA Level 1 topics. Designed to streamline 
+                financial analysis and make exam preparation more efficient.
             </p>
         </div>
+    </section>
 
-        <div class="tools-grid">
-            <!-- Tool 1: Compounding Calculator -->
-            <a href="compounding-calculator/" class="tool-card">
-                <div class="tool-icon">📈</div>
-                <h3 class="tool-name">Compounding Calculator</h3>
-                <p class="tool-description">
-                    Calculate future value, present value, and growth rates using various compounding 
-                    frequencies. Essential for time value of money calculations in CFA Level 1.
-                </p>
-                <div class="tool-tags">
-                    <span class="tool-tag">Time Value of Money</span>
-                    <span class="tool-tag">CFA Level 1</span>
-                </div>
-                <span class="tool-status status-completed">Live</span>
-            </a>
+    <!-- Tools Section -->
+    <section class="tools-section">
+        <div class="section-container">
+            <div class="tools-grid">
+                <!-- Tool 1: Compounding Calculator -->
+                <a href="compounding-calculator/" class="tool-card reveal">
+                    <span class="tool-icon">📈</span>
+                    <h3 class="tool-name">Compounding Calculator</h3>
+                    <p class="tool-description">
+                        Calculate future value, present value, and growth rates using various compounding 
+                        frequencies. Essential for time value of money calculations in CFA Level 1.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Time Value of Money</span>
+                        <span class="tool-tag">CFA Level 1</span>
+                    </div>
+                    <span class="tool-status">Live</span>
+                </a>
 
-            <!-- Tool 2: Hedge Fund Fees Calculator -->
-            <a href="hedge-fund-fees-calculator/" class="tool-card">
-                <div class="tool-icon">💼</div>
-                <h3 class="tool-name">Hedge Fund Fees Calculator</h3>
-                <p class="tool-description">
-                    Compute management fees, performance fees, and total costs for hedge fund investments. 
-                    Understand the "2 and 20" fee structure and its impact on returns.
-                </p>
-                <div class="tool-tags">
-                    <span class="tool-tag">Alternative Investments</span>
-                    <span class="tool-tag">Fee Analysis</span>
-                </div>
-                <span class="tool-status status-completed">Live</span>
-            </a>
+                <!-- Tool 2: Hedge Fund Fees Calculator -->
+                <a href="hedge-fund-fees-calculator/" class="tool-card reveal">
+                    <span class="tool-icon">💼</span>
+                    <h3 class="tool-name">Hedge Fund Fees Calculator</h3>
+                    <p class="tool-description">
+                        Compute management fees, performance fees, and total costs for hedge fund investments. 
+                        Understand the "2 and 20" fee structure and its impact on returns.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Alternative Investments</span>
+                        <span class="tool-tag">Fee Analysis</span>
+                    </div>
+                    <span class="tool-status">Live</span>
+                </a>
 
-            <!-- Tool 3: Repo Rate Calculator -->
-            <a href="repo-rate-calculator/" class="tool-card">
-                <div class="tool-icon">💰</div>
-                <h3 class="tool-name">Repo Rate Calculator</h3>
-                <p class="tool-description">
-                    Calculate implied repo rates and analyze repurchase agreement transactions. 
-                    Perfect for understanding fixed income markets and short-term financing.
-                </p>
-                <div class="tool-tags">
-                    <span class="tool-tag">Fixed Income</span>
-                    <span class="tool-tag">Money Markets</span>
-                </div>
-                <span class="tool-status status-completed">Live</span>
-            </a>
+                <!-- Tool 3: Repo Rate Calculator -->
+                <a href="repo-rate-calculator/" class="tool-card reveal">
+                    <span class="tool-icon">💰</span>
+                    <h3 class="tool-name">Repo Rate Calculator</h3>
+                    <p class="tool-description">
+                        Calculate implied repo rates and analyze repurchase agreement transactions. 
+                        Perfect for understanding fixed income markets and short-term financing.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Fixed Income</span>
+                        <span class="tool-tag">Money Markets</span>
+                    </div>
+                    <span class="tool-status">Live</span>
+                </a>
+            </div>
         </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Gunn Jaggi. All rights reserved.</p>
+    </footer>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        // Scroll reveal animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Reveal cards on scroll
+            const cards = document.querySelectorAll('.tool-card');
+            cards.forEach(card => {
+                observer.observe(card);
+            });
+
+            // Add 3D tilt effect to tool cards
+            const toolCards = document.querySelectorAll('.tool-card');
+            toolCards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = (y - centerY) / 30;
+                    const rotateY = (centerX - x) / 30;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-12px)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                });
+            });
+
+            // Navbar shadow on scroll
+            const nav = document.querySelector('nav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                } else {
+                    nav.style.boxShadow = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
 
         <footer>
