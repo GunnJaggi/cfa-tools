@@ -3,160 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compounding Converter</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Compounding Calculator - Gunn Jaggi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --color-bg: #ffffff;
+            --color-text: #000000;
+            --color-text-muted: #666666;
+            --color-accent: #0066ff;
+            --color-border: #e5e5e5;
+            --color-section-bg: #fafafa;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #FFF9E6 0%, #F5EDD1 50%, #FCE7C5 100%);
             font-family: 'Inter', sans-serif;
-            padding: 2rem;
-            color: #4a4a3a;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .container {
-            max-width: 1200px;
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--color-border);
+            z-index: 1000;
+            padding: 1.5rem 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
             margin: 0 auto;
-        }
-
-        .header {
+            padding: 0 3rem;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 4rem;
-            padding-bottom: 2rem;
-            border-bottom: 2px solid #D4A574;
+            align-items: center;
         }
 
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
+        .logo {
+            font-size: 1.1rem;
             font-weight: 700;
-            color: #3d3d2e;
-            margin: 0 0 0.5rem 0;
-            letter-spacing: -0.01em;
+            color: var(--color-text);
+            text-decoration: none;
+            letter-spacing: -0.02em;
         }
 
-        .underline {
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, #E89B5E 0%, #D4A574 100%);
-            margin-bottom: 1rem;
+        .back-link {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
         }
 
-        .subtitle {
-            color: #7a7a62;
-            font-size: 1rem;
-            max-width: 600px;
-            line-height: 1.6;
-            font-weight: 400;
+        .back-link:hover {
+            color: var(--color-accent);
+            transform: translateX(-4px);
         }
 
-        .icon {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #A8B99C 0%, #8FA885 100%);
-            border-radius: 8px;
+        .back-link::before {
+            content: '← ';
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 50vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            border: 2px solid #D4A574;
-            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.2);
+            padding-top: 80px;
+            background: var(--color-text);
+            color: white;
         }
 
-        .icon-text {
-            color: #ffffff;
-            font-size: 2.5rem;
-            font-weight: 600;
-            font-family: 'Playfair Display', serif;
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 3rem;
+            width: 100%;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #999;
+            max-width: 700px;
+            line-height: 1.6;
+        }
+
+        /* Main Content */
+        .content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 3rem;
         }
 
         .section {
-            background: linear-gradient(135deg, #FFFEF8 0%, #FFF9ED 100%);
-            padding: 2.5rem;
-            border-radius: 12px;
-            border: 2px solid #E8D5B7;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 16px rgba(212, 165, 116, 0.15);
+            margin-bottom: 4rem;
         }
 
-        h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.75rem;
-            font-weight: 600;
-            color: #3d3d2e;
-            margin: 0 0 1.5rem 0;
+        .section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
         }
 
         .about-text {
-            color: #5a5a48;
+            color: var(--color-text-muted);
             line-height: 1.8;
-            font-size: 0.95rem;
+            font-size: 1.05rem;
+            max-width: 900px;
         }
 
-        .section-header {
+        /* Calculator Section */
+        .calculator-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .reset-btn {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            background: linear-gradient(135deg, #E89B5E 0%, #D4A574 100%);
+            background: var(--color-text);
             border: none;
             border-radius: 8px;
-            padding: 0.7rem 1.5rem;
-            color: #ffffff;
-            font-size: 0.9rem;
+            padding: 0.8rem 1.5rem;
+            color: white;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: inherit;
-            box-shadow: 0 2px 8px rgba(232, 155, 94, 0.3);
         }
 
         .reset-btn:hover {
-            background: linear-gradient(135deg, #D4A574 0%, #C09560 100%);
+            background: var(--color-accent);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(232, 155, 94, 0.4);
         }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
+            gap: 2rem;
         }
 
         .card {
-            background: linear-gradient(135deg, #FFFEF8 0%, #FFF9ED 100%);
+            background: white;
             padding: 2rem;
             border-radius: 12px;
-            border: 2px solid #E8D5B7;
+            border: 1px solid var(--color-border);
             transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(212, 165, 116, 0.1);
         }
 
         .card:hover {
-            border-color: #D4A574;
-            box-shadow: 0 4px 16px rgba(212, 165, 116, 0.2);
-            transform: translateY(-2px);
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            transform: translateY(-4px);
         }
 
         .card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 600;
-            color: #3d3d2e;
-            margin: 0 0 1.5rem 0;
+            color: var(--color-text);
+            margin-bottom: 1.2rem;
+            letter-spacing: -0.01em;
         }
 
         .input-group {
@@ -167,12 +203,12 @@
 
         .input {
             flex: 1;
-            padding: 1rem;
+            padding: 1rem 1.2rem;
             font-size: 1.1rem;
             font-weight: 500;
-            color: #3d3d2e;
-            background: #FFFEF8;
-            border: 2px solid #E8D5B7;
+            color: var(--color-text);
+            background: var(--color-section-bg);
+            border: 2px solid var(--color-border);
             border-radius: 8px;
             outline: none;
             transition: all 0.2s ease;
@@ -181,9 +217,9 @@
         }
 
         .input:focus {
-            border-color: #E89B5E;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(232, 155, 94, 0.1);
+            border-color: var(--color-accent);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
         }
 
         .percent-badge {
@@ -192,72 +228,119 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #A8B99C 0%, #8FA885 100%);
-            color: #ffffff;
+            background: var(--color-text);
+            color: white;
             border-radius: 8px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 1.1rem;
-            border: 2px solid #A8B99C;
             flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(168, 185, 156, 0.3);
         }
 
+        /* Explanation Section */
         .explanation {
-            background: linear-gradient(135deg, #FFF9E6 0%, #FFF5DC 100%);
-            padding: 2rem;
+            background: var(--color-section-bg);
+            padding: 2.5rem;
             border-radius: 12px;
             font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            line-height: 2;
-            color: #5a5a48;
-            border: 2px solid #E8D5B7;
+            font-size: 0.95rem;
+            line-height: 2.2;
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
         }
 
         .formula {
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.8rem;
+            color: var(--color-text-muted);
         }
 
-        .footer {
+        /* Footer */
+        footer {
+            background: var(--color-text);
+            color: white;
+            padding: 3rem 0;
             text-align: center;
-            padding-top: 3rem;
-            margin-top: 2rem;
-            border-top: 2px solid #E8D5B7;
+            margin-top: 5rem;
         }
 
-        .feedback-btn {
-            background: transparent;
-            border: 2px solid #D4A574;
-            color: #7a7a62;
-            padding: 0.7rem 1.5rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            font-family: inherit;
-            transition: all 0.3s ease;
-            font-weight: 500;
+        footer p {
+            color: #999;
+            font-size: 0.95rem;
         }
 
-        .feedback-btn:hover {
-            border-color: #E89B5E;
-            color: #3d3d2e;
-            background: rgba(232, 155, 94, 0.05);
+        /* Gradient animation */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero {
+            background: linear-gradient(-45deg, #000000, #1a1a1a, #000000, #0a0a0a);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .nav-container,
+            .content,
+            .hero-container {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.05rem;
+            }
+
+            .content {
+                padding: 3rem 1.5rem;
+            }
+
+            .calculator-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div>
-                <h1>Compounding Converter</h1>
-                <div class="underline"></div>
-                <p class="subtitle">Calculate equivalent rates for various compounding frequencies</p>
-            </div>
-            <div class="icon">
-                <div class="icon-text">%</div>
-            </div>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="https://gunnjaggi.github.io/GunnJaggi/index.html" class="logo">Gunn Jaggi</a>
+            <a href="https://gunnjaggi.github.io/GunnJaggi/index.html" class="back-link">Back to Home</a>
         </div>
+    </nav>
 
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>Compounding Calculator</h1>
+            <p>
+                Calculate equivalent rates for various compounding frequencies. Understanding these equivalencies 
+                is essential for accurate comparison of investment vehicles and loan products.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="content">
         <!-- About Section -->
         <div class="section">
             <h2>About</h2>
@@ -270,9 +353,9 @@
             </p>
         </div>
 
-        <!-- Input & Output Section -->
+        <!-- Calculator Section -->
         <div class="section">
-            <div class="section-header">
+            <div class="calculator-header">
                 <h2>Calculator</h2>
                 <button class="reset-btn" onclick="resetAll()">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -351,9 +434,12 @@
                 <div class="formula">r<sub>continuous</sub> = ln(1 + r) = 0.00%</div>
             </div>
         </div>
-
-        
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Gunn Jaggi. All rights reserved.</p>
+    </footer>
 
     <script>
         let isUpdating = false;
@@ -499,8 +585,17 @@
             updateExplanation(0);
             isUpdating = false;
         }
+
+        // Navbar shadow on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                nav.style.boxShadow = 'none';
+            }
+        });
     </script>
-    <a href="https://gunnjaggi.github.io/GunnJaggi/index.html" style="display:inline-flex;align-items:center;gap:0.5rem;color:#2c3e50;text-decoration:none;font-weight:500;padding:0.8rem 0;margin:1rem 0;transition:color 0.3s ease;">← Back to Home</a>
 </body>
 </html>
 
